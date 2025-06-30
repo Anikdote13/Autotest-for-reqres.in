@@ -42,6 +42,8 @@ def info_start_session():
         faker_version = faker.VERSION
         prettytable_version = prettytable.__version__
         pydantic_version = pydantic.__version__
+        os_version = f"{platform.system()} {platform.version()}"
+        python_version = f"{platform.python_version()}"
         try:
             allure_version = subprocess.run(['allure', '--version'], capture_output=True, text=True, check=True, shell=True)
             allure_version = allure_version.stdout.strip()
@@ -51,15 +53,15 @@ def info_start_session():
             allure_version = "Allure не установлен или не добавлен в PATH"
     with allure.step(f"Запись окружения в файл '{env_file}'"):
         with open(env_file, "w") as file:
-            file.write(f"OS={platform.system()} {platform.version()}\n")
-            file.write(f"Python={platform.python_version()}\n")
+            file.write(f"OS={os_version}\n")
+            file.write(f"Python={python_version}\n")
             file.write(f"Allure={allure_version}\n")
             file.write(f"Pytest={pytest_version}\n")
             file.write(f"Requests={requests_version}\n")
             file.write(f"Faker={faker_version}\n")
             file.write(f"PrettyTable={prettytable_version}\n")
             file.write(f"Pydantic={pydantic_version}\n")
-    yield 
+    yield
     logging.info(f"\n====================================\n==========END TEST SESSION==========\n====================================")
 
 # Генерация фейкового пользователя
