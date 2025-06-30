@@ -1,0 +1,7 @@
+.pytest_cache
+.vscode
+__pycache__
+logs
+venv
+start_allure_report.cmd
+allure-results
