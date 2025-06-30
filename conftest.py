@@ -1,9 +1,16 @@
+import allure
 import pytest
 import logging
 from datetime import datetime
 import random
 from faker import Faker
+import faker
 import os
+import platform
+import subprocess
+import requests
+import prettytable
+import pydantic
 
 # Проверяет наличие папки logs
 logs_dir = ".//logs"
@@ -25,6 +32,33 @@ def info_start_session():
     """Фикстура стартует один раз в начале запуска тестов (scope="session")
     """
     logging.info(f"\n====================================\n=======START NEW TEST SESSION=======\n====================================")
+    # Добавление окружение для теста в Allure-отчет
+    allure_dir = "allure-results"
+    os.makedirs(allure_dir, exist_ok=True)
+    env_file = os.path.join(allure_dir, "environment.properties")
+    with allure.step(f"Получение версий используемых библиотек"):
+        pytest_version = subprocess.run(['pytest', '--version'], capture_output=True,  text=True, check=True).stdout.split()[1]
+        requests_version = requests.__version__
+        faker_version = faker.VERSION
+        prettytable_version = prettytable.__version__
+        pydantic_version = pydantic.__version__
+        try:
+            allure_version = subprocess.run(['allure', '--version'], capture_output=True, text=True, check=True, shell=True)
+            allure_version = allure_version.stdout.strip()
+        except subprocess.CalledProcessError as e:
+            allure_version = "Ошибка при выполнении команды: {e}"
+        except FileNotFoundError:
+            allure_version = "Allure не установлен или не добавлен в PATH"
+    with allure.step(f"Запись окружения в файл '{env_file}'"):
+        with open(env_file, "w") as file:
+            file.write(f"OS={platform.system()} {platform.version()}\n")
+            file.write(f"Python={platform.python_version()}\n")
+            file.write(f"Allure={allure_version}\n")
+            file.write(f"Pytest={pytest_version}\n")
+            file.write(f"Requests={requests_version}\n")
+            file.write(f"Faker={faker_version}\n")
+            file.write(f"PrettyTable={prettytable_version}\n")
+            file.write(f"Pydantic={pydantic_version}\n")
     yield 
     logging.info(f"\n====================================\n==========END TEST SESSION==========\n====================================")
 
