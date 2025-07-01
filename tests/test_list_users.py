@@ -1,18 +1,12 @@
-import json
-import logging
-from textwrap import indent
 import pytest
 import allure
 import base_requests
 import config
 import assertion
-from allure_commons.types import AttachmentType
 import base_helper
-from prettytable import PrettyTable
 
-link_website = "https://reqres.in/"
 
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Получение списка пользователей GET: {config.API_LIST_USER}")
 @allure.feature("Позитивные проверки")
 class TestPositiveCheck:
@@ -42,7 +36,7 @@ class TestPositiveCheck:
         assertion.assert_response(page, response.json()["page"], response=response, message=f"Вернулся передаваемый номер страницы 'page'")
         assertion.assert_status_code(200, response)
 
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Получение списка пользователей GET: {config.API_LIST_USER}")
 @allure.feature("Негативные проверки")
 class TestNegativeCheck:

@@ -1,5 +1,4 @@
 import logging
-import requests
 import base_requests
 import config
 from prettytable import PrettyTable

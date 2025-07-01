@@ -1,19 +1,13 @@
-import json
 import logging
-from math import log
-from textwrap import indent
-from venv import logger
 import pytest
 import allure
 import base_requests
 import config
 import assertion
-from allure_commons.types import AttachmentType
 import base_helper
 
-link_website = "https://reqres.in/"
 
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Получение конкретного пользователя GET: {config.API_SINGLE_USER}")
 @allure.feature("Позитивные проверки")
 class TestPositiveCheck:
@@ -56,7 +50,7 @@ class TestPositiveCheck:
 
 
 
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Получение конкретного пользователя GET: {config.API_SINGLE_USER}")
 @allure.feature("Негативные проверки")
 class TestNegativeCheck:

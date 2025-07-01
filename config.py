@@ -9,3 +9,5 @@ HEADERS = {
     'Accept': '*/*',
     'x-api-key': 'reqres-free-v1'
 }
+
+LINK_WEBSITE = "https://reqres.in/"

@@ -1,24 +1,17 @@
-import json
-import logging
-from textwrap import indent
 import pytest
 import allure
 import base_requests
 import config
 import assertion
-from allure_commons.types import AttachmentType
-from faker import Faker
 from datetime import datetime
 
 
-
-link_website = "https://reqres.in/"
-
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Создание пользователя POST: {config.API_CREATE_USER}")
 @allure.feature("Позитивные проверки")
 class TestPositiveCheck:
     
+    @allure.story("Выполнение API с передачей всех полей")
     @allure.title("Выполнение API с передачей всех полей")
     @allure.description(f"Возвращает данные о созданном пользователе")
     @pytest.mark.parametrize("iteration", range(5))
@@ -41,6 +34,7 @@ class TestPositiveCheck:
         assertion.assert_response(datetime.now().strftime("%Y-%m-%d"), response.json()["createdAt"][:10], response=response, message=f"Сравниваю поле 'createdAt'")
         assertion.assert_status_code(201, response)
 
+    @allure.story("Выполнение API с передачей только поля 'name'")
     @allure.title("Выполнение API с передачей только поля 'name'")
     @allure.description(f"Возвращает только 'name' созданного пользователя")
     @pytest.mark.parametrize("iteration", range(5))
@@ -59,6 +53,7 @@ class TestPositiveCheck:
         assertion.assert_response(datetime.now().strftime("%Y-%m-%d"), response.json()["createdAt"][:10], response=response, message=f"Сравниваю поле 'createdAt'")
         assertion.assert_status_code(201, response)
 
+    @allure.story("Выполнение API с передачей только поля 'job'")
     @allure.title("Выполнение API с передачей только поля 'job'")
     @allure.description(f"Возвращает только 'job' созданного пользователя")
     @pytest.mark.parametrize("iteration", range(5))
@@ -86,10 +81,11 @@ class TestPositiveCheck:
         assertion.assert_response(datetime.now().strftime("%Y-%m-%d"), response.json()["createdAt"][:10], response=response, message=f"Сравниваю поле 'createdAt'")
         assertion.assert_status_code(201, response)
 
-@allure.link(link_website, name=f"Сайт API: {link_website}")
+@allure.link(config.LINK_WEBSITE, name=f"Сайт API: {config.LINK_WEBSITE}")
 @allure.epic(f"Создание пользователя POST: {config.API_CREATE_USER}")
 @allure.feature("Негативные проверки")
 class TestNegativeCheck:
+
 
     @allure.title("Выполнение API с передачей несуществующего поля")
     @allure.description(f"Возвращает несуществующее поле")

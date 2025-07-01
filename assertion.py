@@ -1,6 +1,4 @@
-from email import message
 import logging
-import pytest
 import allure
 import json
 from allure_commons.types import AttachmentType

@@ -2,7 +2,6 @@ import allure
 import pytest
 import logging
 from datetime import datetime
-import random
 from faker import Faker
 import faker
 import os

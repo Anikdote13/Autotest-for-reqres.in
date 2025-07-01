@@ -1,10 +1,7 @@
 import logging
-import pytest
 import allure
 import requests
-from allure_commons.types import AttachmentType
 import config
-import json
 import base_helper
 
 def get_request(url, payload=None):
