@@ -23,7 +23,8 @@ os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(level=logging.INFO, 
                     filename=f"{logs_dir}//{datetime.now().strftime('%d-%m-%Y')}.log",
                     filemode="a",
-                    format="%(asctime)s - %(levelname)s(%(lineno)d)-(%(filename)s)-(%(funcName)s) == %(message)s",
+                    # format="%(asctime)s - %(levelname)s(%(lineno)d)-(%(filename)s)-(%(funcName)s) == %(message)s",
+                    format="%(asctime)s - %(levelname)s %(filename)s->%(funcName)s = %(message)s",
                     encoding="UTF-8")
 
 @pytest.fixture(scope="session", autouse=True)
