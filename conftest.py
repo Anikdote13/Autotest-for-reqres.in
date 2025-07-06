@@ -3,13 +3,10 @@ import pytest
 import logging
 from datetime import datetime
 from faker import Faker
-import faker
 import os
 import platform
 import subprocess
-import requests
-import prettytable
-import pydantic
+from importlib.metadata import version
 
 # Проверяет наличие папки logs
 logs_dir = ".//logs"
@@ -37,11 +34,6 @@ def info_start_session():
     os.makedirs(allure_dir, exist_ok=True)
     env_file = os.path.join(allure_dir, "environment.properties")
     with allure.step(f"Получение версий используемых библиотек"):
-        pytest_version = subprocess.run(['pytest', '--version'], capture_output=True,  text=True, check=True).stdout.split()[1]
-        requests_version = requests.__version__
-        faker_version = faker.VERSION
-        prettytable_version = prettytable.__version__
-        pydantic_version = pydantic.__version__
         os_version = f"{platform.system()} {platform.version()}"
         python_version = f"{platform.python_version()}"
         try:
@@ -51,12 +43,19 @@ def info_start_session():
             allure_version = "Ошибка при выполнении команды: {e}"
         except FileNotFoundError:
             allure_version = "Allure не установлен или не добавлен в PATH"
+        pytest_version = version("pytest")
+        allure_pytest_version = version("allure-pytest")
+        requests_version = version("requests")
+        faker_version = version("faker")
+        prettytable_version = version("prettytable")
+        pydantic_version = version("pydantic")
     with allure.step(f"Запись окружения в файл '{env_file}'"):
         with open(env_file, "w") as file:
             file.write(f"OS={os_version}\n")
             file.write(f"Python={python_version}\n")
             file.write(f"Allure={allure_version}\n")
             file.write(f"Pytest={pytest_version}\n")
+            file.write(f"Allure-pytest={allure_pytest_version}\n")
             file.write(f"Requests={requests_version}\n")
             file.write(f"Faker={faker_version}\n")
             file.write(f"PrettyTable={prettytable_version}\n")
